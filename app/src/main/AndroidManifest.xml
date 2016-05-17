@@ -36,6 +36,9 @@
                 android:name=".OrderActivity"
                 android:screenOrientation="locked"
                 android:theme="@style/AppTheme.NoActionBar" />
+
+        <meta-data android:value="573ace1767e58e9a67000079" android:name="UMENG_APPKEY"></meta-data>
+        <meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
     </application>
 
 </manifest>

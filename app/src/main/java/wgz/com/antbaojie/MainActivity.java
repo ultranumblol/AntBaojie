@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
 import android.widget.ImageView;
+import com.umeng.analytics.MobclickAgent;
 import wgz.com.antbaojie.adapter.MyFragmentPagerAdapter;
 import wgz.com.antbaojie.fragment.Fragment1;
 import wgz.com.antbaojie.fragment.Fragment2;
@@ -140,4 +141,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }).show();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
 }

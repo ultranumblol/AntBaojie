@@ -85,7 +85,7 @@ public class Fragment1 extends Fragment {
         //注册广播
         receiver = new MsgReceiver();
         IntentFilter filter=new IntentFilter();
-        filter.addAction("com.ant.wgz.service.MsgService");
+        filter.addAction("service.MsgService");
         getActivity().registerReceiver(receiver, filter);
         Log.i("msg", "注册receiver成功！");
 

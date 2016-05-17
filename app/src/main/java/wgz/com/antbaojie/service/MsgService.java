@@ -42,7 +42,7 @@ public class MsgService extends Service{
                             if (isActivityRunning(getApplicationContext())){
                                 Intent intent = new Intent();
                                 intent.putExtra("msg","newmsg");
-                                intent.setAction("com.ant.wgz.service.MsgService");
+                                intent.setAction("service.MsgService");
                                 sendBroadcast(intent);
 
                             }else {
