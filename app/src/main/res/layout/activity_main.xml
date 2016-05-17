@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+
+              android:id="@+id/root"
+              android:orientation="vertical">
+    <wgz.com.antbaojie.view.CustomViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></wgz.com.antbaojie.view.CustomViewPager>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_weight="0"
+            android:background="@color/gray"
+    >
+
+    </TextView>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="0"
+    >
+        <ImageView
+                android:id="@+id/bar1"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:onClick="BarClick"
+                android:src="@drawable/foot_letter_normal"
+        />
+        <ImageView
+                android:id="@+id/bar2"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:onClick="BarClick"
+                android:src="@drawable/foot_position_normal2"
+        />
+        <ImageView
+                android:id="@+id/bar4"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:onClick="BarClick"
+                android:src="@drawable/foot_myself_normal"
+        />
+    </LinearLayout>
+</LinearLayout>
