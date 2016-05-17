@@ -1,6 +1,7 @@
 package wgz.com.antbaojie;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,7 @@ import wgz.com.antbaojie.adapter.MyFragmentPagerAdapter;
 import wgz.com.antbaojie.fragment.Fragment1;
 import wgz.com.antbaojie.fragment.Fragment2;
 import wgz.com.antbaojie.fragment.Fragment3;
+import wgz.com.antbaojie.service.MsgService;
 import wgz.com.antbaojie.view.CustomViewPager;
 
 import java.lang.reflect.Field;
@@ -36,7 +38,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getOverflowMenu();
+        openservice();
         init();
+    }
+
+    private void openservice() {
+        startService(new Intent(this, MsgService.class));
     }
 
     private void init() {
