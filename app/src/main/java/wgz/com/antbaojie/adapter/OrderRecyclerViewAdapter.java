@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Created by qwerr on 2016/5/9.
  */
-public class OrderRecyclerViewAdapter extends RecyclerView.Adapter {
+public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecyclerViewAdapter.Myviewholder> {
     private List<Map<String ,Object>> data;
     private Context context;
     private RycViewOnItemClickListener onItemClickListener;
@@ -25,36 +25,42 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public Myviewholder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public OrderRecyclerViewAdapter.Myviewholder onCreateViewHolder(ViewGroup parent, int viewType) {
         Myviewholder holder = new Myviewholder(LayoutInflater.from(context).inflate(R.layout.order_item,null));
 
         return holder;
     }
+
+    @Override
+    public void onBindViewHolder(final OrderRecyclerViewAdapter.Myviewholder holder, int position) {
+        holder.name.setText(data.get(position).get("customName").toString());
+        holder.address.setText(data.get(position).get("customAddress").toString());
+        holder.date.setText(data.get(position).get("date").toString());
+        holder.state.setText(data.get(position).get("order_state").toString());
+
+        if (onItemClickListener!=null){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = holder.getLayoutPosition();
+                    onItemClickListener.onItemClick(holder.itemView,pos);
+                }
+            });
+
+        }
+    }
+
     public void setOnItemClickListener(RycViewOnItemClickListener onItemClickListener){
         this.onItemClickListener = onItemClickListener;
 
     }
-    @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-            if (onItemClickListener!=null){
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int pos = holder.getLayoutPosition();
-                        onItemClickListener.onItemClick(holder.itemView,pos);
-                    }
-                });
-
-            }
-    }
-
 
     @Override
     public int getItemCount() {
-        return 10;
+        return data.size();
     }
 
-    private static class Myviewholder extends RecyclerView.ViewHolder {
+    public static class Myviewholder extends RecyclerView.ViewHolder {
         private TextView name,date,state,address;
 
         public Myviewholder(View itemView) {

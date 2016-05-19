@@ -12,7 +12,15 @@ public class PathMaker {
 
        return path;
    }
+    public String getQueryFinishedPath(Object...params){
+        String path = "http://192.168.7.2:8080/sms/queryFinished.do";
 
+        return path;
+    }
+    public String getQueryIngPath(Object...params){
+        String path = "http://192.168.7.2:8080/sms/queryIng.do";
 
+        return path;
+    }
 
 }

@@ -93,7 +93,7 @@ public class Fragment1 extends Fragment {
             @Override
             public List<Map<String, Object>> initData() {
                 List<Map<String ,Object>> list;
-                String jsonstr = httpUtil.getStr(new PathMaker().getPath(),"UTF_8");
+                String jsonstr = httpUtil.getStr(new PathMaker().getQueryIngPath(),"UTF_8");
                 Log.i("listdata",jsonstr);
                 FastJsonTools fastJsonTools = new FastJsonTools();
                 list = fastJsonTools.getlistmap(jsonstr);
