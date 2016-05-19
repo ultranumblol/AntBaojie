@@ -8,7 +8,7 @@ public class PathMaker {
     }
 
     public String getPath(Object...params){
-       String path = "";
+       String path = "http://192.168.7.2:8080/sms/queryAll.do";
 
        return path;
    }

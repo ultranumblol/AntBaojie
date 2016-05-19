@@ -26,11 +26,11 @@ import wgz.com.antbaojie.OrderActivity;
 import wgz.com.antbaojie.R;
 import wgz.com.antbaojie.adapter.MsgRecyclerViewAdapter;
 import wgz.com.antbaojie.adapter.RycViewOnItemClickListener;
-import wgz.com.antbaojie.util.RefreshList;
-
+import wgz.com.antbaojie.util.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 消息页面
@@ -65,7 +65,7 @@ public class Fragment1 extends Fragment {
                 refreshList.setRefreshVoid(new RefreshList.RefreshListener() {
                     @Override
                     public void Refresh() {
-                        //刷新操作
+                     initData();
 
                     }
                 });
@@ -73,15 +73,9 @@ public class Fragment1 extends Fragment {
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter =new MsgRecyclerViewAdapter(mList,getActivity());
-        adapter.setOnItemClickListener(new RycViewOnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                startActivity(new Intent(getActivity(), OrderActivity.class));
-                //Toast.makeText(getActivity(), "点击了：" + position + "号", Toast.LENGTH_SHORT).show();
-            }
-        });
-        recyclerView.setAdapter(adapter);
+        initData();
+
+
         //注册广播
         receiver = new MsgReceiver();
         IntentFilter filter=new IntentFilter();
@@ -90,6 +84,43 @@ public class Fragment1 extends Fragment {
         Log.i("msg", "注册receiver成功！");
 
 
+
+    }
+
+    private void initData() {
+        InitListData initListData = new InitListData();
+        initListData.setInitDataListener(new InitListData.InitData() {
+            @Override
+            public List<Map<String, Object>> initData() {
+                List<Map<String ,Object>> list;
+                String jsonstr = httpUtil.getStr(new PathMaker().getPath(),"UTF_8");
+                Log.i("listdata",jsonstr);
+                FastJsonTools fastJsonTools = new FastJsonTools();
+                list = fastJsonTools.getlistmap(jsonstr);
+                Log.i("listdata",list.toString());
+                return list;
+            }
+        });
+        initListData.execute();
+        initListData.setOnDataFinishListener(new InitListData.DataFinishListener() {
+            @Override
+            public void success(Object o) {
+                adapter =new MsgRecyclerViewAdapter((List<Map<String, Object>>) o,getActivity());
+                adapter.setOnItemClickListener(new RycViewOnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        startActivity(new Intent(getActivity(), OrderActivity.class));
+                        //Toast.makeText(getActivity(), "点击了：" + position + "号", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void faild() {
+                Snackbar.make(root,"没有业务！",Snackbar.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
