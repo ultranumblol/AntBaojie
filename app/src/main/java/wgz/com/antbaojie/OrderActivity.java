@@ -39,7 +39,7 @@ public class OrderActivity extends AppCompatActivity {
         orderAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // startActivity(new Intent(OrderActivity.this,MapActivity.class));
+               startActivity(new Intent(OrderActivity.this,LoginActivity.class));
             }
         });
     }

@@ -133,7 +133,7 @@ public class Fragment1 extends Fragment {
                 notify3.flags |= Notification.FLAG_AUTO_CANCEL; // FLAG_AUTO_CANCEL表明当通知被用户点击时，通知将被清除。
                 manager.notify(1, notify3);// 步骤4：通过通知管理器来发起通知。如果id不同，则每click，在status哪里增加一个提示
 
-                Snackbar.make(root," 收到新消息！", Snackbar.LENGTH_SHORT).show();
+                //Snackbar.make(root," 收到新消息！", Snackbar.LENGTH_SHORT).show();
 
             }
         }
