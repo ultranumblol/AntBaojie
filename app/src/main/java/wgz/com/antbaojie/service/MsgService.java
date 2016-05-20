@@ -12,11 +12,22 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
 import wgz.com.antbaojie.MainActivity;
+import wgz.com.antbaojie.OrderActivity;
 import wgz.com.antbaojie.R;
+import wgz.com.antbaojie.adapter.MsgRecyclerViewAdapter;
+import wgz.com.antbaojie.adapter.RycViewOnItemClickListener;
+import wgz.com.antbaojie.util.FastJsonTools;
+import wgz.com.antbaojie.util.InitListData;
+import wgz.com.antbaojie.util.PathMaker;
+import wgz.com.antbaojie.util.httpUtil;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * 请求消息服务
@@ -24,21 +35,26 @@ import java.util.List;
  */
 public class MsgService extends Service{
     private int MsgLength;
-
+    private int mServiceMsgLength;
+    private int latestID;
+    private int BeforlatestID;
     @Override
     public void onCreate() {
         super.onCreate();
         new Thread(new Runnable() {
             @Override
             public void run() {
+                BeforlatestID = latestID;
                 while (true){
                     try {
                         Thread.sleep(1000*10*1);
                         //当前消息总数
-                        MsgLength =9;
-                        int mServiceMsgLength = getServiceMsgSize();
-                        Log.i("msg",mServiceMsgLength+"");
-                        if (mServiceMsgLength!=MsgLength&&mServiceMsgLength>MsgLength){
+
+                        getServiceMsgID();
+                        Log.i("msg","latestID"+latestID);
+                        Log.i("msg","BeforlatestID"+BeforlatestID);
+                        if (latestID>BeforlatestID){
+                            BeforlatestID = latestID;
                             if (isActivityRunning(getApplicationContext())){
                                 Intent intent = new Intent();
                                 intent.putExtra("msg","newmsg");
@@ -78,10 +94,41 @@ public class MsgService extends Service{
 
     }
 //返回一个随机数
-    private int getServiceMsgSize() {
-        int size = (int) (Math.random()*10+1);//返回一个1-10的随机数
+    private int getServiceMsgID() {
+       /* int size = (int) (Math.random()*10+1);//返回一个1-10的随机数
 
-        return size;
+        return size;*/
+
+        InitListData initListData = new InitListData();
+        initListData.setInitDataListener(new InitListData.InitData() {
+            @Override
+            public List<Map<String, Object>> initData() {
+                List<Map<String ,Object>> list;
+                String jsonstr = httpUtil.getStr(new PathMaker().getQueryIngPath(),"UTF_8");
+                //Log.i("listdata",jsonstr);
+                FastJsonTools fastJsonTools = new FastJsonTools();
+                list = fastJsonTools.getlistmap(jsonstr);
+                //Log.i("listdata",list.toString());
+                return list;
+            }
+        });
+        initListData.execute();
+        initListData.setOnDataFinishListener(new InitListData.DataFinishListener() {
+            @Override
+            public void success(Object o) {
+                List<Map<String ,Object>> result = (List<Map<String, Object>>) o;
+                mServiceMsgLength = result.size();
+                latestID = (int) result.get(mServiceMsgLength-1).get("order_id");
+                //Log.i("msg","latestID:"+latestID);
+            }
+
+            @Override
+            public void faild() {
+                mServiceMsgLength = 0;
+            }
+        });
+
+        return latestID;
     }
     //判断一个activity是否在运行
     public  static  boolean isActivityRunning(Context context){

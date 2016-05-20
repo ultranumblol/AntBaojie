@@ -23,14 +23,24 @@
             android:layout_gravity="center_vertical"
             android:background="@color/white"
             >
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="订单号:"
+                      android:textColor="@color/gray3"
+                      android:layout_centerVertical="true"
+                      android:layout_marginLeft="24dp"
+                      android:id="@+id/id_order_dingdanhao"
+            />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="订单号:177567586"
+                android:text="177567586"
                 android:textColor="@color/gray3"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="24dp"
+                android:layout_toRightOf="@id/id_order_dingdanhao"
                 android:textSize="16dp"
+                android:id="@+id/id_order_orderID"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -39,6 +49,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="12dp"
                 android:text="已完成"
+                android:id="@+id/id_order_orderState"
                 android:textColor="@color/red2"
                 />
 
@@ -68,22 +79,24 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="24dp"
                 android:textSize="16dp"
-                android:id="@+id/id_order_name"
+                android:id="@+id/id_order_customname"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
-                android:layout_toRightOf="@id/id_order_name"
+                android:layout_toRightOf="@id/id_order_customname"
                 android:text="18023456666"
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="40dp"
+                android:id="@+id/id_order_customPhone"
+
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/id_order_name"
+                android:layout_below="@id/id_order_customname"
                 android:layout_marginLeft="48dp"
                 android:layout_marginTop="10dp"
                 android:textSize="14sp"
@@ -96,7 +109,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@android:drawable/ic_menu_mapmode"
-                android:layout_below="@id/id_order_name"
+                android:layout_below="@id/id_order_customname"
                 android:layout_marginTop="10dp"
                 android:id="@+id/id_order_addressimg"
                 android:layout_marginLeft="24dp"
@@ -136,6 +149,14 @@
                 android:layout_marginLeft="44dp"
                 android:textSize="16dp"
                 />
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                        android:text="2016/11/18 10:11-12:20"
+                      android:layout_centerVertical="true"
+                      android:id="@+id/id_order_date"
+                      android:layout_alignParentRight="true"
+                      android:layout_marginRight="20dp"
+            />
 
 
         </RelativeLayout>
@@ -150,6 +171,25 @@
             android:layout_gravity="center_vertical"
             android:background="@color/white"
             >
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="12dp"
+                    android:text="元"
+                    android:textColor="@color/red2"
+                    android:id="@+id/id_id_order_yuan"
+            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/id_id_order_yuan"
+                android:layout_marginTop="10dp"
+                android:text="220"
+                android:textColor="@color/red2"
+                android:id="@+id/id_id_order_orderMoney"
+        />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -158,19 +198,14 @@
                 android:textColor="@color/gray3"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="24dp"
-                android:id="@+id/id_id_order_servername"
+                android:id="@+id/id_id_order_orderType"
                 android:textSize="16dp"
 
                 />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="12dp"
-                android:text="220元"
-                android:textColor="@color/red2"
-                />
+
+
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -178,8 +213,9 @@
                 android:layout_marginLeft="24dp"
                 android:text="3小时"
                 android:textColor="@color/gray"
-                android:layout_below="@id/id_id_order_servername"
+                android:layout_below="@id/id_id_order_orderType"
                 android:paddingBottom="14dp"
+                android:id="@+id/id_order_orderTime"
                 />
 
         </RelativeLayout>

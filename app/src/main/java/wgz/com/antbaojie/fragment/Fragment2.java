@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import wgz.com.antbaojie.OrderActivity;
 import wgz.com.antbaojie.R;
 import wgz.com.antbaojie.adapter.MsgRecyclerViewAdapter;
@@ -85,13 +86,30 @@ public class Fragment2 extends Fragment {
         initListData.execute();
         initListData.setOnDataFinishListener(new InitListData.DataFinishListener() {
             @Override
-            public void success(Object o) {
+            public void success(final Object o) {
                 adapter =new OrderRecyclerViewAdapter((List<Map<String, Object>>) o,getActivity());
                 adapter.setOnItemClickListener(new RycViewOnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        startActivity(new Intent(getActivity(), OrderActivity.class));
-                        //Toast.makeText(getActivity(), "点击了：" + position + "号", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent();
+                        intent.setClass(getActivity(),OrderActivity.class);
+                        //intent.putExtra("orderID",((List<Map<String,Object>>) o).get(position).get("order_id").toString());
+                        Bundle bundle = new Bundle();
+                        bundle.putString("order_id",((List<Map<String,Object>>) o).get(position).get("order_id").toString());
+                        bundle.putString("order_money",((List<Map<String,Object>>) o).get(position).get("order_money").toString());
+                        bundle.putString("order_time",((List<Map<String,Object>>) o).get(position).get("order_time").toString());
+                        bundle.putString("customPhone",((List<Map<String,Object>>) o).get(position).get("customPhone").toString());
+                        bundle.putString("date",((List<Map<String,Object>>) o).get(position).get("date").toString());
+                        bundle.putString("customName",((List<Map<String,Object>>) o).get(position).get("customName").toString());
+                        bundle.putString("order_type",((List<Map<String,Object>>) o).get(position).get("order_type").toString());
+                        bundle.putString("customAddress",((List<Map<String,Object>>) o).get(position).get("customAddress").toString());
+                        bundle.putString("order_state",((List<Map<String,Object>>) o).get(position).get("order_state").toString());
+
+                        intent.putExtras(bundle);
+
+                        startActivity(intent);
+                        //Toast.makeText(getActivity(), "customAddress："+((List<Map<String,Object>>) o).get(position).get("customAddress").toString() , Toast.LENGTH_SHORT).show();
+
                     }
                 });
                 mRecyclerView.setAdapter(adapter);
