@@ -38,6 +38,7 @@ public class MsgService extends Service{
     private int mServiceMsgLength;
     private int latestID;
     private int BeforlatestID;
+    private boolean isfirstIn=true;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -51,36 +52,44 @@ public class MsgService extends Service{
                         //当前消息总数
 
                         getServiceMsgID();
-                        Log.i("msg","latestID"+latestID);
-                        Log.i("msg","BeforlatestID"+BeforlatestID);
+                        Log.i("msg","latestID: "+latestID);
+                        Log.i("msg","BeforlatestID: "+BeforlatestID);
                         if (latestID>BeforlatestID){
                             BeforlatestID = latestID;
-                            if (isActivityRunning(getApplicationContext())){
-                                Intent intent = new Intent();
-                                intent.putExtra("msg","newmsg");
-                                intent.setAction("service.MsgService");
-                                sendBroadcast(intent);
+                            if (isfirstIn){
+                                isfirstIn = false;
 
-                            }else {
-                                NotificationManager manager = (NotificationManager)getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
-                                PendingIntent pendingIntent3 = PendingIntent.getActivity(getApplication(), 0,
-                                        new Intent(getApplication(), MainActivity.class), 0);
-                                Uri ringUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                                // 通过Notification.Builder来创建通知，注意API Level
-                                // API16之后才支持
-                                Notification notify3 = null; // 需要注意build()是在API
-                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                                    notify3 = new Notification.Builder(getApplication())
-                                            .setSmallIcon(R.drawable.mabu)
-                                            .setTicker("蚂蚁保洁：" + "你有新的业务，请查看！")
-                                            .setContentTitle("蚂蚁保洁")
-                                            .setContentText("你有新的业务，请查看！")
-                                            .setContentIntent(pendingIntent3).setSound(ringUri).build();
+                            }else{
+                                if (isActivityRunning(getApplicationContext())){
+                                    Intent intent = new Intent();
+                                    intent.putExtra("msg","newmsg");
+                                    intent.setAction("service.MsgService");
+                                    sendBroadcast(intent);
+
+                                }else {
+                                    NotificationManager manager = (NotificationManager)getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
+                                    PendingIntent pendingIntent3 = PendingIntent.getActivity(getApplication(), 0,
+                                            new Intent(getApplication(), MainActivity.class), 0);
+                                    Uri ringUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                                    // 通过Notification.Builder来创建通知，注意API Level
+                                    // API16之后才支持
+                                    Notification notify3 = null; // 需要注意build()是在API
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                                        notify3 = new Notification.Builder(getApplication())
+                                                .setSmallIcon(R.drawable.mabu)
+                                                .setTicker("蚂蚁保洁：" + "你有新的业务，请查看！")
+                                                .setContentTitle("蚂蚁保洁")
+                                                .setContentText("你有新的业务，请查看！")
+                                                .setContentIntent(pendingIntent3).setSound(ringUri).build();
+                                    }
+                                    // level16及之后增加的，API11可以使用getNotificatin()来替代
+                                    notify3.flags |= Notification.FLAG_AUTO_CANCEL; // FLAG_AUTO_CANCEL表明当通知被用户点击时，通知将被清除。
+                                    manager.notify(1, notify3);// 步骤4：通过通知管理器来发起通知。如果id不同，则每click，在status哪里增加一个提示
                                 }
-                                // level16及之后增加的，API11可以使用getNotificatin()来替代
-                                notify3.flags |= Notification.FLAG_AUTO_CANCEL; // FLAG_AUTO_CANCEL表明当通知被用户点击时，通知将被清除。
-                                manager.notify(1, notify3);// 步骤4：通过通知管理器来发起通知。如果id不同，则每click，在status哪里增加一个提示
+
                             }
+
+
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -93,7 +102,7 @@ public class MsgService extends Service{
 
 
     }
-//返回一个随机数
+//返回列表ID
     private int getServiceMsgID() {
        /* int size = (int) (Math.random()*10+1);//返回一个1-10的随机数
 

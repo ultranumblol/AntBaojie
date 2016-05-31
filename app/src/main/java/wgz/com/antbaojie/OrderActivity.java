@@ -11,10 +11,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import com.umeng.analytics.MobclickAgent;
+import wgz.com.antbaojie.util.FastJsonTools;
+import wgz.com.antbaojie.util.InitListData;
+import wgz.com.antbaojie.util.PathMaker;
+import wgz.com.antbaojie.util.httpUtil;
+
+import java.util.List;
+import java.util.Map;
 
 
 public class OrderActivity extends AppCompatActivity {
-    private TextView orderAddress,customName,order_time,order_id,order_state,order_type,order_money,customPhone,date;
+    private TextView orderAddress,customName,order_time,order_id,order_state,order_type,order_money,customPhone,date,workerName;
 
 
     @Override
@@ -51,8 +58,34 @@ public class OrderActivity extends AppCompatActivity {
         order_money.setText(bundle.getString("order_money"));
         customPhone.setText(bundle.getString("customPhone"));
         date.setText(bundle.getString("date"));
+        InitListData initListData = new InitListData();
+        initListData.setInitDataListener(new InitListData.InitData() {
+            @Override
+            public List<Map<String, Object>> initData() {
+               List<Map<String,Object>> list = null;
+               list = FastJsonTools.getlistmap(httpUtil.getStr(new PathMaker().getQueryWorkerPath(),"UTF-8"));
+                return list;
+            }
+        });
+        initListData.execute();
+        initListData.setOnDataFinishListener(new InitListData.DataFinishListener() {
+            @Override
+            public void success(Object o) {
+                List<Map<String,Object>> list = (List<Map<String, Object>>) o;
+                String workname = "";
+                int j = list.size();
+                for (int i = 0; i <j; i++){
+                    workname+= list.get(i).get("worker_name").toString()+" ";
 
+                }
+                workerName.setText(workname);
+            }
 
+            @Override
+            public void faild() {
+                workerName.setText("未找到");
+            }
+        });
 
     }
 
@@ -66,7 +99,7 @@ public class OrderActivity extends AppCompatActivity {
         order_money = (TextView) findViewById(R.id.id_id_order_orderMoney);
         customPhone = (TextView) findViewById(R.id.id_order_customPhone);
         date = (TextView) findViewById(R.id.id_order_date);
-
+        workerName = (TextView) findViewById(R.id.id_order_workerName);
 
         orderAddress.setOnClickListener(new View.OnClickListener() {
             @Override

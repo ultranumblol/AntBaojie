@@ -8,19 +8,23 @@ public class PathMaker {
     }
 
     public String getPath(Object...params){
-       String path = "http://192.168.7.34:8080/sms/queryAll.do";
+       String path = "http://192.168.7.88:8080/sms/queryAll.do";
 
        return path;
    }
     public String getQueryFinishedPath(Object...params){
-        String path = "http://192.168.7.34:8080/sms/queryFinished.do";
+        String path = "http://192.168.7.88:8080/sms/queryFinished.do";
 
         return path;
     }
     public String getQueryIngPath(Object...params){
-        String path = "http://192.168.7.34:8080/sms/queryIng.do";
+        String path = "http://192.168.7.88:8080/sms/queryIng.do";
 
         return path;
     }
+    public String getQueryWorkerPath(Object...params){
+        String path = "http://192.168.7.88:8080/sms/queryWorkerName.do";
 
+        return path;
+    }
 }
